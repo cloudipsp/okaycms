@@ -16,6 +16,9 @@ $err = '';
 		foreach($callack as $key=>$val){
 			$_POST[$key] =  $val ;
 		}
+		if(!$_POST['order_id']){
+			die('go away!');
+		}
 	}
 	
     list($order_id,) = explode(fondycsl::ORDER_SEPARATOR, $_POST['order_id']);

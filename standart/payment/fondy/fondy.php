@@ -60,90 +60,89 @@ class fondy extends Okay
 			</div>
 			</div>';
 			if ($settings['mode'] == 'popup'){
-			 $button .='<script>
-			function callmag(){
-			$.magnificPopup.open({
-			showCloseBtn:false,
-					items: {
-						src: $("#checkout_wrapper"),
-						type: "inline"
-					}
-				});
-			}
-			$(document).ready(function() {
-			 $.magnificPopup.open({
-			 showCloseBtn:false,
-					items: {
-						src: $("#checkout_wrapper"),
-						type: "inline"
-					}
-				});
-				})
-			</script>';
+				$button .='<script>
+				function callmag(){
+				$.magnificPopup.open({
+				showCloseBtn:false,
+						items: {
+							src: $("#checkout_wrapper"),
+							type: "inline"
+						}
+					});
+				}
+				$(document).ready(function() {
+				 $.magnificPopup.open({
+				 showCloseBtn:false,
+						items: {
+							src: $("#checkout_wrapper"),
+							type: "inline"
+						}
+					});
+					})
+				</script>';
 				}
 
 				 $button .='
-				 <style>
-			#checkout_wrapper a{
-				font-size: 20px;
-				top: 30px;
-				padding: 20px;
-				position: relative;
-			}
-			#checkout_wrapper {
-				text-align: left;
-				position: relative;
-				background: #FFF;
-				/* padding: 30px; */
-				padding-left: 15px;
-				padding-right: 15px;
-				padding-bottom: 30px;
-				width: auto;
-				max-width: 2000px;
-				margin: 9px auto;
-			}
-			</style>
+					 <style>
+						#checkout_wrapper a{
+							font-size: 20px;
+							top: 30px;
+							padding: 20px;
+							position: relative;
+						}
+						#checkout_wrapper {
+							text-align: left;
+							position: relative;
+							background: #FFF;
+							max-height: 700px;
+							padding-left: 15px;
+							padding-right: 15px;
+							padding-bottom: 30px;
+							width: auto;
+							max-width: 2000px;
+							margin: 9px auto;
+						}
+					</style>
 				 
-				 <script>
-			function checkoutInit(url, val) {
-				$ipsp("checkout").scope(function() {
-					this.setCheckoutWrapper("#checkout_wrapper");
-					this.addCallback(__DEFAULTCALLBACK__);
-					this.action("show", function(data) {
-					   $("#checkout_loader").remove();
-						$("#checkout").show();
-					});
-					this.action("hide", function(data) {
-						$("#checkout").hide();
-					});
-					if(val){
-					this.width(val);
-					this.action("resize", function(data) {
-					$("#checkout_wrapper").width(val).height(data.height);
-						});
-					}else{
-					 this.action("resize", function(data) {
-					$("#checkout_wrapper").width(480).height(data.height);
-						});
-					}
-					this.loadUrl(url);
-				});
-				};
-				checkoutInit("' . $url . '");
-				</script>';
+					<script>
+						function checkoutInit(url, val) {
+							$ipsp("checkout").scope(function() {
+								this.setCheckoutWrapper("#checkout_wrapper");
+								this.addCallback(__DEFAULTCALLBACK__);
+								this.action("show", function(data) {
+								   $("#checkout_loader").remove();
+									$("#checkout").show();
+								});
+								this.action("hide", function(data) {
+									$("#checkout").hide();
+								});
+								if(val){
+								this.width(val);
+								this.action("resize", function(data) {
+								$("#checkout_wrapper").width(val).height(data.height);
+									});
+								}else{
+								 this.action("resize", function(data) {
+								$("#checkout_wrapper").width(480).height(data.height);
+									});
+								}
+								this.loadUrl(url);
+							});
+							};
+							checkoutInit("' . $url . '");
+						</script>';
 				if ($settings['mode'] == 'popup'){
 					$button .='<input type="button" onclick="callmag();" class="checkout_button" value="'.$button_text.'">';
 				}
-		}else{
-			$button = '<form id="fondy_to_checkout" method="POST" action="https://api.fondy.eu/api/checkout/redirect/">';
-			foreach($res as $key => $value){
-				$button .= '<input type="hidden" name="'.$key.'" value="'.$value.'">';
-			}
-			$button .= '<input type="submit" class="checkout_button" value="'.$button_text.'"></form>';
-			$button .= ' <script>document.getElementById("fondy_to_checkout").submit();</script>';
-		}		
+			}else{
+				$button = '<form id="fondy_to_checkout" method="POST" action="https://api.fondy.eu/api/checkout/redirect/">';
+				foreach($res as $key => $value){
+					$button .= '<input type="hidden" name="'.$key.'" value="'.$value.'">';
+				}
+				$button .= '<input type="submit" class="checkout_button" value="'.$button_text.'"></form>';
+				$button .= ' <script>document.getElementById("fondy_to_checkout").submit();</script>';
+			}		
 			echo $button;
-			//return $res;
 	}
 	protected function get_checkout($args){
 		if(is_callable('curl_init')){
