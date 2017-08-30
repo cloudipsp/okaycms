@@ -202,6 +202,23 @@
             <input type="submit" name="submit-button" value="{$lang->form_to_pay}" class="button">
         </form>
     </div>
+	{elseif $payment_module == "w1"}
+    <form name="pay" method="POST" action="https://wl.walletone.com/checkout/checkout/Index">
+        <input type="hidden" name="CMS" value="OkayCMS">
+        <input type="hidden" name="WMI_CURRENCY_ID" value="{$fields['WMI_CURRENCY_ID']}">
+        <input type="hidden" name="WMI_CUSTOMER_EMAIL" value="{$fields['WMI_CUSTOMER_EMAIL']}">
+        <input type="hidden" name="WMI_DESCRIPTION" value="{$fields['WMI_DESCRIPTION']}">
+        <input type="hidden" name="WMI_EXPIRED_DATE" value="{$fields['WMI_EXPIRED_DATE']}">
+        <input type="hidden" name="WMI_FAIL_URL" value="{$fields['WMI_FAIL_URL']}">
+        <input type="hidden" name="WMI_MERCHANT_ID" value="{$fields['WMI_MERCHANT_ID']}">
+        <input type="hidden" name="WMI_PAYMENT_AMOUNT" value="{$fields['WMI_PAYMENT_AMOUNT']}">
+        <input type="hidden" name="WMI_PAYMENT_NO" value="{$fields['WMI_PAYMENT_NO']}">
+        <input type="hidden" name="WMI_RECIPIENT_LOGIN" value="{$fields['WMI_RECIPIENT_LOGIN']}">
+        <input type="hidden" name="WMI_SUCCESS_URL" value="{trim($fields['WMI_SUCCESS_URL'])}">
+        <input type="hidden" name="WMI_SIGNATURE" value="{$fields['WMI_SIGNATURE']}">
+        <input type="hidden" name="WMI_ORDER_ITEMS" value='{$fields['WMI_ORDER_ITEMS']}'>
+        <input type="submit" name="WMI_ZZZ" value="К оплате" class="btn btn-warning btn-block">
+    </form>
 {elseif $payment_module == "Fondy"}
     {* Способ оплаты Fondy *}
     <div class="row">
@@ -213,11 +230,11 @@
 		<input type="hidden" name="currency" value="{$currency}">
 		<input type="hidden" name="server_callback_url" value="{$server_callback_url}">
 		<input type="hidden" name="response_url" value="{$response_url}">
-		<input type="hidden" name="lang" value="{$lang}">
+		<input type="hidden" name="lang" value="{$language}">
 		<input type="hidden" name="sender_email" value="{$sender_email}">
 		<input type="hidden" name="preauth" value="{$preauth}">
 		<input type="hidden" name="signature" value="{$signature}">
-		<input type="submit" class="button" value="{$btn_text}">
+		<input type="submit" class="button" value="{$lang->form_to_pay}">
 		</form>
     </div>
 {/if}

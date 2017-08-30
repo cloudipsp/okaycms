@@ -42,7 +42,7 @@ class Fondy extends Okay
 			'currency' => $currency,
 			'server_callback_url' => $result_url,
 			'response_url' => $result_url,
-			'lang' =>  $settings['lang'],
+			'language' =>  $settings['lang'],
 			'sender_email' => $order->email
 			);
 		if ($paymode == 'Y'){
