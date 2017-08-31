@@ -26,7 +26,7 @@ class Fondy extends Okay
 		$paymode = $settings['fondy_paymode'];
 
 		$success_url = $this->config->root_url.'/order/'.$order->url;
-		$result_url = $this->config->root_url.'/payment/fondy/callback.php';
+		$result_url = $this->config->root_url.'/payment/Fondy/callback.php';
 
 		$currency = $payment_currency->code;
 		if ($currency == 'RUR')
