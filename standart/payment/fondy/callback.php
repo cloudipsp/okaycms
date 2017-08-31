@@ -12,6 +12,9 @@ $err = '';
 ////////////////////////////////////////////////
 	if (empty($_POST)){
 		$callack = json_decode(file_get_contents("php://input"));
+		if(empty($callack)){
+			die('go away!');
+		}
 		$_POST = array();
 		foreach($callack as $key=>$val){
 			$_POST[$key] =  $val ;
