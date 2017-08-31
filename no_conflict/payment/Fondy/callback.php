@@ -12,6 +12,9 @@ $err = '';
 ////////////////////////////////////////////////
 	if (empty($_POST)){
 		$callack = json_decode(file_get_contents("php://input"));
+		if(empty($callack)){
+			die('go away');
+		}
 		$_POST = array();
 		foreach($callack as $key=>$val){
 			$_POST[$key] =  $val ;
@@ -77,7 +80,7 @@ $err = '';
             $err = "Amount check failed";
     }else {
 		$invoice['transaction'] = $_POST['order_id'];
-        $invoice['system'] = 'fondy';
+        $invoice['system'] = 'Fondy';
         $invoice['amount'] = $_POST['amount'] / 100 . " " . $_POST['actual_currency'];
 	}
     $invoice['error_code'] = 'unknown code';

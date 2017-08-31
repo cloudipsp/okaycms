@@ -25,7 +25,7 @@ class FondyView extends View
 		$this->design->assign('pages', $pages);
 		
 		// Создаем основной блок страницы
-		$content = $this->design->fetch('payment/fondy/fondy.tpl');
+		$content = $this->design->fetch('payment/Fondy/fondy.tpl');
 				
 		// Передаем основной блок в шаблон
 		$this->design->assign('content', $content);
