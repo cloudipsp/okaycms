@@ -5,7 +5,7 @@
 {if $invoice.status == 'approved'}
 <div style="background:white;padding:10px;">
 	<div class="h3">
-		<span>Заказ успешно оплачен.</pant>
+		<span>Заказ успешно оплачен.</span>
 	</div>
 	<table style="max-width: 330px" class="order_details">
         <tbody>
