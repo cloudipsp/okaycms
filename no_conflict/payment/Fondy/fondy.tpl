@@ -2,12 +2,12 @@
 
 {$meta_title = "Ваш заказ №`$invoice.transaction`" scope=parent}
 
-{if $invoice.status == 'approved'}
+{if $invoice.status != 'declined' or $invoice.status != 'expired'}
 <div style="background:white;padding:10px;">
 	<div class="h3">
-		<span>Заказ успешно оплачен.</span>
+		<span>Ваш заказ успешно оплачен.</span>
 	</div>
-	<table style="max-width: 330px" class="order_details">
+	<table style="max-width:290px" class="order_details">
         <tbody>
 			<tr>
                 <td>
@@ -19,7 +19,7 @@
 			</tr>
 			<tr>
                 <td>
-					<span>Ваш заказ №:</span>
+					<span>Ваш номер заказа:</span>
 				</td>
 				<td>
 					<span> {$invoice.transaction}</span>
@@ -28,13 +28,12 @@
 		</tbody>
 	</table>		
 	
-	<img style="margin-bottom:20px" src="https://fondy.eu/wp-content/uploads/sites/17/fondy-logo.svg" class="logo" alt="fondy-logo" itemprop="logo">
+	<img style="margin-bottom:20px;margin-left: 50px;margin-top: 30px;width: 150px;" src="/payment/Fondy/2015x1000_color.png" class="logo" alt="fondy-logo" itemprop="logo">
 </div>	
 {else}
-	<h1>Ошибка оплаты.</h1>
-	<p>Код ошибки: {$invoice.error_code}</p>
-	<br>
-<p>Описание ошибки :{$invoice.error_message}</p>
+	<div class="h3">
+		<span>Оплата отколнена системой.</pant>
+	</div>
 {/if}
 
 

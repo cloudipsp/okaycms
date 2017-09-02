@@ -2,6 +2,7 @@
 
 chdir ('../../');
 require_once('api/Okay.php');
+require_once('api/Money.php');
 require_once('payment/Fondy/fondy.cls.php');
 require_once(dirname(__FILE__).'/FondyView.php');
 $fonView = new FondyView();
@@ -40,28 +41,29 @@ $err = '';
 		
         if ($_POST['amount'] / 100 >= round($Okay->money->convert($order->total_price, $payment_method->currency_id, false), 2)) {
             if ($paymentInfo === true) {
-                if ($_POST['order_status'] == fondycsl::ORDER_APPROVED) {
+                if ($_POST['order_status'] != 'declined' or $_POST['order_status'] != 'expired') {
 
-                    // Установим статус оплачен
+                    if ($_POST['order_status'] == 'approved'){
+						// Установим статус оплачен
+						$Okay->orders->update_order(intval($order->id), array('paid' => 1));
 
-                    $Okay->orders->update_order(intval($order->id), array('paid' => 1));
+						// Отправим уведомление на email
+						$Okay->notify->email_order_user(intval($order->id));
+						$Okay->notify->email_order_admin(intval($order->id));
 
-                    // Отправим уведомление на email
-                    $Okay->notify->email_order_user(intval($order->id));
-                    $Okay->notify->email_order_admin(intval($order->id));
-
-                    // Спишем товары
-                    $Okay->orders->close(intval($order->id));
-
-
+						// Спишем товары
+						$Okay->orders->close(intval($order->id));
+					}
+					
                     $invoice['status'] = $_POST['order_status'];
-                    $invoice['transaction'] = $_POST['order_id'];
-                    $invoice['system'] = 'fondy';
-                    $invoice['amount'] = $_POST['amount'] / 100 . " " . $_POST['actual_currency'];
+                    $invoice['transaction'] = $order_id;
+                    $invoice['system'] = 'Fondy';
+                    $invoice['amount'] = $order->total_price . " " . $Okay->money->get_currency()->sign;
 					
                     $fonView->design->assign('invoice', $invoice);
 
                     print $fonView->fetch();
+					die;
 
                 } else {
                     $Okay->orders->update_order(intval($order->id), array('paid' => 0));
@@ -72,6 +74,7 @@ $err = '';
                     $fonView->design->assign('invoice', $invoice);
 
                     print $fonView->fetch();
+					die;
 
                 }
             } else
@@ -79,7 +82,7 @@ $err = '';
         } else
             $err = "Amount check failed";
     }else {
-		$invoice['transaction'] = $_POST['order_id'];
+		$invoice['transaction'] = $order_id;
         $invoice['system'] = 'Fondy';
         $invoice['amount'] = $_POST['amount'] / 100 . " " . $_POST['actual_currency'];
 	}
@@ -88,3 +91,4 @@ $err = '';
     $invoice['error_message'] = $err;
     $fonView->design->assign('invoice', $invoice);
     print $fonView->fetch();
+	die;
